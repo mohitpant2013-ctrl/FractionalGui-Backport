@@ -1,0 +1,45 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, master ]
+    tags: [ 'v*' ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write   # needed to attach the jar to a release on tags
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Minecraft 1.16.5 / ForgeGradle 5 needs Java 8
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 8
+
+      # ForgeGradle 5.1 needs Gradle 7.x (not 8). Installed here so no gradlew is required.
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 7.6.4
+
+      - name: Build
+        run: gradle build --no-daemon
+
+      - name: Upload jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: fracgui-jar
+          path: build/libs/*.jar
+          if-no-files-found: error
+
+      # Pushing a tag like v1.0.0 publishes a GitHub Release with the jar attached
+      - name: Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/libs/*.jar
