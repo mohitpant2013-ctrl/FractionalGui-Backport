@@ -10,12 +10,14 @@ import net.minecraft.util.text.StringTextComponent;
  * The scale is applied on release (not while dragging), because applying it re-initialises
  * the screen and would destroy the slider mid-drag.
  */
+// NOTE: in MCP snapshot 20210309-1.16.5 these two AbstractSlider methods have no readable name,
+// so they keep their SRG names: func_230979_b_ = updateMessage(), func_230972_a_ = applyValue().
 public class ScaleSlider extends AbstractSlider {
     private static final int MAX_IDX = (int) Math.round((FracConfig.MAX - FracConfig.MIN) / FracConfig.STEP) + 1;
 
     public ScaleSlider(int x, int y, int w, int h) {
         super(x, y, w, h, StringTextComponent.EMPTY, toIdx(FracConfig.scale()) / (double) MAX_IDX);
-        updateMessage();
+        func_230979_b_();
     }
 
     static int toIdx(double s) {
@@ -34,14 +36,14 @@ public class ScaleSlider extends AbstractSlider {
     }
 
     @Override
-    protected void updateMessage() {
+    protected void func_230979_b_() {
         int i = idx();
         String v = i == 0 ? "Auto" : String.format(Locale.ROOT, "%.2fx", fromIdx(i));
         setMessage(new StringTextComponent("GUI Scale: " + v));
     }
 
     @Override
-    protected void applyValue() {
+    protected void func_230972_a_() {
         // committed on release / key press, see commit()
     }
 
