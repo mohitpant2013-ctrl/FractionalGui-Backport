@@ -1,0 +1,7 @@
+{
+  "key.categories.fracgui": "Fractional GUI Scale",
+  "key.fracgui.up": "Increase GUI Scale",
+  "key.fracgui.down": "Decrease GUI Scale",
+  "key.fracgui.off": "Reset GUI Scale (Auto)",
+  "key.fracgui.borderless": "Toggle Borderless Fullscreen"
+}

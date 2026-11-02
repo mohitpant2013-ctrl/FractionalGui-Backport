@@ -1,0 +1,8 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "fyredeft.fracgui.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "fracgui.refmap.json",
+  "client": [ "MainWindowMixin" ]
+}
